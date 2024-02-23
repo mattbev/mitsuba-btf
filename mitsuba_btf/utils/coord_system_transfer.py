@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def spherical2orthogonal(r, theta, phi):
     """
     球面座標から直交座標へ変換する．
@@ -12,16 +13,18 @@ def spherical2orthogonal(r, theta, phi):
     z = r * np.cos(theta)
     return x, y, z
 
+
 def orthogonal2spherical(x, y, z):
     """
     直交座標から球面座標へ変換する．
     thetaとphiの単位は度．
     """
-    r = np.sqrt(x*x+y*y+z*z)
-    theta = np.arccos(z/r)
-    x_for_arccos = x / (np.sqrt(x*x+y*y) + 10**-32)
-    phi = np.sign(y) * np.arccos( np.clip(x_for_arccos, -1, 1) )
+    r = np.sqrt(x * x + y * y + z * z)
+    theta = np.arccos(z / r)
+    x_for_arccos = x / (np.sqrt(x * x + y * y) + 10**-32)
+    phi = np.sign(y) * np.arccos(np.clip(x_for_arccos, -1, 1))
     return r, np.rad2deg(theta), np.rad2deg(phi)
+
 
 def mirror_uv(uv):
     """
@@ -31,7 +34,7 @@ def mirror_uv(uv):
     ----------
     uv : np.ndarray
       変換前のUV座標
-    
+
     Returns
     -------
     uv_mirror : np.ndarray
@@ -53,5 +56,5 @@ def mirror_uv(uv):
     """
     uv_int = np.floor(uv)
     mask_to_mirror = np.mod(uv_int, 2)
-    uv_mirror = np.where(mask_to_mirror, 1 - uv + 2*uv_int, uv)
+    uv_mirror = np.where(mask_to_mirror, 1 - uv + 2 * uv_int, uv)
     return uv_mirror
